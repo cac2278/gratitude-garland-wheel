@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lenox Library Gratitude Garland</title>
+<style>
+:root{
+  --viz-card:#ffffff;
+  --viz-panel:#f5f7f9;
+  --viz-border:#d8e0e6;
+  --viz-muted:#657786;
+  --viz-text:#172b3a;
+  --viz-accent:#287ca5;
+  --viz-accent-bg:#e8f5fb;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:12px;
+  background:#f3f6f8;
+  color:var(--viz-text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+#bbr-color-fix{--wheel:min(590px,100%);max-width:1360px;margin:0 auto;height:100%}
+#bbr-color-fix .shell{display:grid;grid-template-columns:175px minmax(0,1fr) 235px;gap:14px;align-items:stretch;width:100%;height:100%}
+#bbr-color-fix .main{min-width:0;min-height:0;border:1px solid var(--viz-border);border-radius:24px;background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);padding:14px}
+#bbr-color-fix .sidebar{min-width:0;border:1px solid var(--viz-border);border-radius:24px;background:var(--viz-card);padding:18px 16px;display:flex;flex-direction:column;align-self:stretch}
+#bbr-color-fix .eyebrow{font-size:.68rem;font-weight:850;letter-spacing:.155em;text-transform:uppercase;color:var(--viz-muted)}
+#bbr-color-fix .titleRow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:nowrap;width:100%}
+#bbr-color-fix h2{font-size:clamp(2.35rem,4.2vw,3.15rem);font-weight:900;line-height:1.08;letter-spacing:-.04em;margin:4px 0 6px;max-width:100%;overflow-wrap:normal}
+#bbr-color-fix .sub{color:var(--viz-muted);line-height:1.48;margin:9px 0 0;max-width:42rem;font-size:.94rem}
+#bbr-color-fix .badge{padding:6px 10px;border-radius:999px;border:1px solid #bdd6e7;background:#eef7fc;font-size:.72rem;font-weight:800;color:#365f78;white-space:nowrap}
+#bbr-color-fix .wheelWrap{position:relative;width:var(--wheel);aspect-ratio:1/1;max-width:100%;margin:18px auto 6px;display:grid;place-items:center}
+#bbr-color-fix canvas{width:100%;height:100%;display:block;touch-action:manipulation;filter:drop-shadow(0 10px 16px rgba(22,38,52,.20))}
+#bbr-color-fix .pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:4;width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-bottom:36px solid #176b87;filter:drop-shadow(0 3px 2px rgba(0,0,0,.24))}
+#bbr-color-fix .spin{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);width:108px;height:108px;border-radius:50%;border:5px solid #fff;background:#172b3a;color:#fff;font-size:1.15rem;font-weight:950;letter-spacing:.085em;cursor:pointer;box-shadow:0 0 0 4px rgba(23,43,58,.28),0 8px 18px rgba(0,0,0,.25);transition:transform .1s ease,box-shadow .1s ease}
+#bbr-color-fix .spin:active{transform:translate(-50%,-50%) scale(.975)}
+#bbr-color-fix .spin small{display:block;color:#fff;font-size:.50rem;letter-spacing:.13em;font-weight:850;margin-top:4px;opacity:1;text-shadow:0 1px 1px rgba(0,0,0,.18)}
+#bbr-color-fix .spin:disabled{opacity:.58;cursor:not-allowed}
+#bbr-color-fix .controls{margin-top:14px;padding-top:15px;border-top:1px solid var(--viz-border)}
+#bbr-color-fix .moodLabel{text-align:center;font-size:.7rem;font-weight:850;letter-spacing:.14em;text-transform:uppercase;color:var(--viz-muted)}
+#bbr-color-fix .moods{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px auto 0;max-width:520px}
+#bbr-color-fix .mood{min-height:44px;padding:8px 12px;border:1px solid #c9d7e1;border-radius:999px;background:#fff;font-weight:760;font-size:.88rem;cursor:pointer;transition:border-color .12s ease,background .12s ease,transform .1s ease}
+#bbr-color-fix .mood:active{transform:scale(.985)}
+#bbr-color-fix .mood.selected{border:1.5px solid #287ca5;background:#e8f5fb;color:#174d68}
+#bbr-color-fix .status{text-align:center;color:var(--viz-muted);font-size:.84rem;min-height:20px;margin-top:11px}
+#bbr-color-fix .sidebarTop{min-height:155px}
+#bbr-color-fix .resultTitle{font-size:clamp(1.45rem,3vw,2rem);font-weight:900;line-height:1.04;letter-spacing:-.035em;margin-top:12px}
+#bbr-color-fix .author{font-size:.96rem;color:var(--viz-muted);margin-top:8px;line-height:1.35}
+#bbr-color-fix .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+#bbr-color-fix .tag{font-size:.7rem;font-weight:700;padding:5px 8px;border:1px solid #cbd8e1;border-radius:999px;background:#f4f8fa;color:#526b7b}
+#bbr-color-fix .infoBox{margin-top:18px;padding:16px;border-radius:17px;background:#f3f7fa;line-height:1.52;font-size:.91rem;border:1px solid #dde7ed}
+#bbr-color-fix .infoLabel{display:block;font-size:.67rem;font-weight:850;letter-spacing:.125em;text-transform:uppercase;color:#617786;margin-bottom:8px}
+#bbr-color-fix .again{width:100%;min-height:52px;margin-top:20px;border:1.5px solid #287ca5;border-radius:16px;background:#e8f5fb;color:#174d68;font-size:.94rem;font-weight:850;cursor:pointer;transition:transform .1s ease,background .1s ease}
+#bbr-color-fix .again:active{transform:scale(.987)}
+#bbr-color-fix .sidebarNote{margin-top:22px;padding:16px;border-radius:17px;background:#f7f8fa;color:var(--viz-muted);font-size:.84rem;line-height:1.5;border:1px solid #e5e8eb}
+#bbr-color-fix .sidebarNote strong{color:var(--viz-text)}
+#bbr-color-fix .spacer{flex:1}
+@media(max-width:520px){
+  html,body{height:auto;overflow:auto}
+  body{padding:14px}
+  #bbr-color-fix{height:auto}
+  #bbr-color-fix .shell{grid-template-columns:1fr}
+  #bbr-color-fix{--wheel:min(88vw,500px)}
+  #bbr-color-fix .sidebar{min-height:auto}
+  #bbr-color-fix .sidebarTop{min-height:0}
+}
+@media(max-width:390px){
+  #bbr-color-fix .main,#bbr-color-fix .sidebar{padding:16px}
+  #bbr-color-fix .spin{width:92px;height:92px;font-size:.98rem}
+  #bbr-color-fix .spin small{display:block;font-size:.44rem}
+  #bbr-color-fix .mood{font-size:.84rem;padding:7px 11px}
+}
+
+#bbr-color-fix .credits{
+  grid-column:1 / -1;
+  margin-top:2px;
+  padding:12px 16px 0;
+  text-align:center;
+  color:var(--viz-muted);
+  font-size:.76rem;
+  line-height:1.55;
+}
+#bbr-color-fix .credits strong{color:var(--viz-text)}
+#bbr-color-fix .credits span,#bbr-color-fix .credits strong{white-space:normal}
+#bbr-color-fix .credits a{color:#174d68;font-weight:750;text-decoration:underline}
+
+
+html,body{height:100%;overflow:hidden}
+body{min-height:100vh}
+#bbr-color-fix{height:calc(100vh - 24px)}
+#bbr-color-fix .filterSidebar{
+  min-width:0;border:1px solid var(--viz-border);border-radius:24px;background:#fff;
+  padding:18px 14px;display:flex;flex-direction:column;justify-content:center;
+}
+#bbr-color-fix .filterTitle{
+  font-size:.72rem;font-weight:850;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--viz-muted);margin-bottom:12px;text-align:center;
+}
+#bbr-color-fix .filterSidebar .moods{
+  display:flex;flex-direction:column;flex-wrap:nowrap;justify-content:center;
+  gap:9px;margin:0;max-width:none;
+}
+#bbr-color-fix .filterSidebar .mood{
+  width:100%;min-height:46px;text-align:left;border-radius:14px;
+}
+#bbr-color-fix .main{display:flex;flex-direction:column;justify-content:center}
+#bbr-color-fix .wheelWrap{margin:6px auto 0}
+#bbr-color-fix .sub{margin-top:6px;font-size:.86rem}
+#bbr-color-fix .status{margin-top:3px}
+#bbr-color-fix .controls{margin-top:4px;padding-top:6px}
+#bbr-color-fix .credits{
+  grid-column:1 / -1;
+  margin-top:2px;
+  padding:7px 10px 2px;
+  font-size:.72rem;
+  line-height:1.55;
+  min-height:0;
+}
+@media(max-height:760px){
+  #bbr-color-fix{--wheel:min(490px,100%)}
+  #bbr-color-fix h2{font-size:1.8rem}
+  #bbr-color-fix .sub{font-size:.8rem}
+  #bbr-color-fix .spin{width:92px;height:92px;font-size:1rem}
+  #bbr-color-fix .sidebarTop{min-height:120px}
+  #bbr-color-fix .infoBox{margin-top:10px;padding:12px;font-size:.82rem}
+  #bbr-color-fix .again{min-height:44px;margin-top:10px}
+  #bbr-color-fix .sidebarNote{margin-top:10px;padding:11px;font-size:.76rem}
+}
+
+
+#bbr-color-fix .playPrompt{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;margin:8px 0 2px;padding:13px 24px;
+  border:4px solid #9A421F;border-radius:999px;background:#FFF0CF;color:#713016;
+  font-size:1.58rem;font-weight:950;letter-spacing:.075em;text-transform:uppercase;
+  animation:bbrPlayPulse 1.35s ease-in-out infinite;transform-origin:center;
+  box-shadow:0 0 0 0 rgba(154,66,31,.34);
+}
+#bbr-color-fix .playPrompt small{font-size:.92rem;font-weight:900;letter-spacing:.045em;text-transform:none}
+
+@keyframes bbrPlayPulse{
+  0%,100%{transform:scale(1);background:#FFF0CF;box-shadow:0 0 0 0 rgba(154,66,31,.34)}
+  50%{transform:scale(1.085);background:#FFDDA1;box-shadow:0 0 0 8px rgba(154,66,31,0)}
+}
+@media(prefers-reduced-motion:reduce){#bbr-color-fix .playPrompt{animation:none}}
+
+
+#bbr-color-fix .playPrompt .sparkle{
+  display:inline-block;
+  font-size:1.15em;
+  line-height:1;
+  color:#A34B1E;
+  animation:bbrSparkle 1.05s ease-in-out infinite alternate;
+}
+#bbr-color-fix .playPrompt .sparkleRight{animation-delay:.35s}
+@keyframes bbrSparkle{
+  0%{transform:scale(.72) rotate(-10deg);opacity:.45}
+  100%{transform:scale(1.22) rotate(10deg);opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  #bbr-color-fix .playPrompt .sparkle{animation:none;opacity:1}
+}
+
+
+#bbr-color-fix .wheelWrap{
+  width:var(--wheel);
+  height:var(--wheel);
+  min-width:var(--wheel);
+  min-height:var(--wheel);
+  flex:0 0 auto;
+  visibility:visible;
+  opacity:1;
+}
+#bbr-color-fix canvas{
+  display:block;
+  width:100%;
+  height:100%;
+  visibility:visible;
+  opacity:1;
+}
+
+
+#bbr-color-fix .titleRow>div:first-child{min-width:0;flex:1 1 auto}
+#bbr-color-fix .titleRow .badge{flex:0 0 auto;margin-left:auto;align-self:center}
+
+
+#bbr-color-fix .titleRow{
+  display:block;
+  width:100%;
+  overflow:visible;
+  flex-shrink:0;
+}
+
+</style>
+</head>
+<body>
+<div id="bbr-color-fix">
+<div class="shell">
+
+<aside class="filterSidebar" aria-label="Choose a gratitude theme">
+  <div class="filterTitle">Choose a theme</div>
+  <div class="moods" aria-label="Gratitude themes">
+<button class="mood selected" type="button" data-mood="all">🍂 Surprise me</button>
+<button class="mood" type="button" data-mood="people">💛 People &amp; kindness</button>
+<button class="mood" type="button" data-mood="moments">☕ Little joys</button>
+<button class="mood" type="button" data-mood="growth">🌱 Growth &amp; memories</button>
+</div>
+</aside>
+
+<section class="main">
+<div class="titleRow">
+<div>
+
+<h2>Gratitude Garland</h2><p class="sub">What are YOU grateful for? Spin for inspiration—or write your own!</p>
+</div>
+</div>
+<div class="playPrompt" aria-label="Play Gratitude Garland">
+  <span class="sparkle sparkleLeft" aria-hidden="true">✦</span>
+  🎲 PLAY ME! <small>Spin the wheel</small>
+  <span class="sparkle sparkleRight" aria-hidden="true">✦</span>
+</div>
+
+<div class="wheelWrap">
+<div class="pointer" aria-hidden="true"></div>
+<canvas id="colorFixCanvas" width="760" height="760" aria-label="Gratitude prompt wheel"></canvas>
+<button id="colorFixSpin" class="spin" type="button">SPIN<small>THE WHEEL</small></button>
+</div>
+
+
+</section>
+
+<aside class="sidebar" aria-live="polite">
+<div class="sidebarTop">
+<div class="eyebrow">Your gratitude prompt</div>
+<div id="colorFixTitle" class="resultTitle">Take a spin.</div>
+<div id="colorFixAuthor" class="author">A little inspiration is one spin away.</div>
+<div id="colorFixTags" class="tags"></div>
+</div>
+<div id="colorFixInfo" class="infoBox"><span class="infoLabel">About the wheel</span>Choose a theme and the wheel will reset to show only titles that match it.</div>
+<button id="colorFixAgain" class="again" type="button">↻ &nbsp; SPIN AGAIN</button>
+<div id="colorFixMoodNote" class="sidebarNote"><strong>Make a leaf!</strong> Write your gratitude on a leaf and give it to Camille or any Library Assistant. We’ll add it to our growing garland.</div>
+<div class="spacer"></div>
+</aside>
+
+<footer class="credits"><strong>How to join the Gratitude Garland</strong> · 1. Spin for a prompt (or choose your own!) · 2. Write your gratitude on a leaf · 3. Give your leaf to Camille or any Library Assistant. <strong>Thank you for filling Lenox Library with kindness and a little magic!</strong></footer>
+</div>
+</div>
+
+<script>
+(()=>{
+const root=document.getElementById('bbr-color-fix');if(root.dataset.ready)return;root.dataset.ready='1';
+const books=[
+ {title:'A person who makes you smile',moods:['people'],tags:['People'],why:'Who brings a little light into your day? Write their name or what you appreciate about them.'},
+ {title:'A small everyday joy',moods:['moments'],tags:['Little joys'],why:'Think of something ordinary that makes a day better.'},
+ {title:'Someone who helped you',moods:['people'],tags:['Kindness'],why:'Remember a time someone showed up for you, big or small.'},
+ {title:'Your favorite cozy thing',moods:['moments'],tags:['Comfort'],why:'A warm drink, a blanket, a song, a book—what brings you comfort?'},
+ {title:'Something you learned',moods:['growth'],tags:['Growth'],why:'What new skill, idea, or lesson are you glad to have learned?'},
+ {title:'A place you love',moods:['moments'],tags:['Places'],why:'Where do you feel welcome, relaxed, or happy?'},
+ {title:'A happy memory',moods:['growth'],tags:['Memories'],why:'What moment would you love to revisit?'},
+ {title:'An unexpected kindness',moods:['people'],tags:['Kindness'],why:'What thoughtful gesture surprised you?'},
+ {title:'Something about yourself',moods:['growth'],tags:['Self-appreciation'],why:'What is one thing you appreciate about yourself?'},
+ {title:'A sound that brings joy',moods:['moments'],tags:['Little joys'],why:'Maybe laughter, rain, music, or the crunch of leaves.'},
+ {title:'A friend or mentor',moods:['people'],tags:['Connection'],why:'Who has encouraged or inspired you?'},
+ {title:'Something you overcame',moods:['growth'],tags:['Resilience'],why:'What challenge taught you something about your strength?'},
+ {title:'A favorite fall moment',moods:['moments'],tags:['Autumn'],why:'Think crisp air, colorful trees, warm treats, or a favorite tradition.'},
+ {title:'A simple act of care',moods:['people'],tags:['Care'],why:'Who has made you feel seen or supported lately?'}
+];
+const surprise=[...books];
+const canvas=document.getElementById('colorFixCanvas'),ctx=canvas.getContext('2d'),spinBtn=document.getElementById('colorFixSpin'),again=document.getElementById('colorFixAgain'),status=document.getElementById('colorFixStatus');
+let active=[...surprise],rotation=0,spinning=false;
+
+function wrap(text,maxChars){
+  const words=text.split(' '),lines=[];let line='';
+  for(const word of words){
+    const next=(line+' '+word).trim();
+    if(next.length>maxChars&&line){lines.push(line);line=word}else line=next
+  }
+  if(line)lines.push(line);
+  return lines.slice(0,3)
+}
+
+function colorFor(e,i){
+  if(i%5===0)return'#C86C3A';
+  if(i%5===1)return'#E7A544';
+  if(i%5===2)return'#799A54';
+  const tbdColors=['#B65B43','#D9A045','#6F915B','#D27F49','#A16A45'];
+  return tbdColors[i%tbdColors.length];
+}
+
+function draw(){
+  const W=760,C=380,R=340,n=active.length,slice=Math.PI*2/n;
+  ctx.clearRect(0,0,W,W);
+
+  ctx.beginPath();ctx.arc(C,C,R+18,0,Math.PI*2);ctx.fillStyle='#172B3A';ctx.fill();
+  ctx.beginPath();ctx.arc(C,C,R+9,0,Math.PI*2);ctx.strokeStyle='#FFFFFF';ctx.lineWidth=6;ctx.stroke();
+  ctx.beginPath();ctx.arc(C,C,R+2,0,Math.PI*2);ctx.strokeStyle='#27485D';ctx.lineWidth=3;ctx.stroke();
+
+  for(let i=0;i<n;i++){
+    const e=active[i],start=rotation+i*slice-Math.PI/2,end=start+slice,mid=start+slice/2;
+    ctx.beginPath();ctx.moveTo(C,C);ctx.arc(C,C,R,start,end);ctx.closePath();
+    ctx.fillStyle=colorFor(e,i);ctx.fill();
+    ctx.strokeStyle='rgba(23,43,58,.48)';ctx.lineWidth=2.5;ctx.stroke();
+
+    const radius=n===1?230:n===2?238:n<=3?244:n<=8?248:258;
+    const x=C+Math.cos(mid)*radius,y=C+Math.sin(mid)*radius;
+
+    ctx.save();ctx.translate(x,y);
+    const isT=false,fs=n<=3?27:n<=8?22:n<=12?19:17;
+    ctx.font=`800 ${fs}px ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+
+    const lines=wrap(e.title,n<=3?20:n<=8?16:13),
+      lh=fs*1.08,
+      maxW=Math.max(...lines.map(l=>ctx.measureText(l).width)),
+      limit=n<=3?205:n<=8?154:116,
+      bw=Math.min(maxW+22,limit),
+      bh=lines.length*lh+16;
+
+    ctx.fillStyle='rgba(255,255,255,.96)';
+    ctx.beginPath();
+    if(ctx.roundRect)ctx.roundRect(-bw/2,-bh/2,bw,bh,10);
+    else ctx.rect(-bw/2,-bh/2,bw,bh);
+    ctx.fill();
+
+    ctx.strokeStyle='rgba(23,43,58,.12)';ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle='#172B3A';
+    lines.forEach((l,j)=>ctx.fillText(l,0,(j-(lines.length-1)/2)*lh,bw-12));
+    ctx.restore();
+  }
+
+  ctx.beginPath();ctx.arc(C,C,116,0,Math.PI*2);ctx.fillStyle='#172B3A';ctx.fill();
+  ctx.strokeStyle='#FFFFFF';ctx.lineWidth=7;ctx.stroke();
+  ctx.beginPath();ctx.arc(C,C,104,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=2;ctx.stroke();
+}
+
+function resetResult(msg){
+  document.getElementById('colorFixTitle').textContent='Take a spin.';
+  document.getElementById('colorFixAuthor').textContent='A little inspiration is one spin away.';
+  document.getElementById('colorFixTags').innerHTML='';
+  document.getElementById('colorFixInfo').innerHTML='<span class="infoLabel">Theme selected</span>'+msg;
+}
+
+function setMood(mood,label){
+  rotation=0;
+  active=mood==='all'?[...surprise]:books.filter(b=>b.moods.includes(mood));
+  draw();
+
+  const moodNote=document.getElementById('colorFixMoodNote');
+
+  if(mood==='all'){
+    resetResult('All gratitude prompts are back on the wheel. Spin for a little inspiration!');
+    moodNote.innerHTML='<strong>Make a leaf!</strong> Write your gratitude on a leaf and give it to Camille or any Library Assistant.';
+  }else{
+    const n=active.length;
+    resetResult('The wheel now shows '+n+' '+(n===1?'prompt':'prompts')+' about '+label.toLowerCase()+'.');
+    moodNote.innerHTML='<strong>'+label+'</strong> is selected. Write your answer on a leaf, or follow your own inspiration!';
+  }
+}
+
+function showResult(i){
+  const e=active[i];
+  document.getElementById('colorFixTitle').textContent=e.title;
+  document.getElementById('colorFixAuthor').textContent='What comes to mind?';
+  const tags=document.getElementById('colorFixTags');
+  tags.innerHTML='';
+  e.tags.forEach(t=>{
+    const s=document.createElement('span');
+    s.className='tag';
+    s.textContent=t;
+    tags.appendChild(s);
+  });
+  document.getElementById('colorFixInfo').innerHTML='<span class="infoLabel">A little inspiration</span>'+e.why+'<p><strong>Next:</strong> Write on a leaf and give it to Camille or any Library Assistant.</p>';
+}
+
+function spin(){
+  if(spinning||!active.length)return;
+
+  spinning=true;
+  spinBtn.disabled=true;
+  again.disabled=true;
+
+  const n=active.length,
+    slice=Math.PI*2/n,
+    winner=Math.floor(Math.random()*n),
+    norm=((rotation%(Math.PI*2))+Math.PI*2)%(Math.PI*2),
+    desired=((-(winner+.5)*slice)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
+
+  let delta=desired-norm;
+  if(delta<0)delta+=Math.PI*2;
+
+  const start=rotation,
+    target=start+delta+(5+Math.floor(Math.random()*3))*Math.PI*2,
+    t0=performance.now(),
+    duration=3000;
+
+  function frame(now){
+    const t=Math.min(1,(now-t0)/duration),
+      ease=1-Math.pow(1-t,4);
+
+    rotation=start+(target-start)*ease;
+    draw();
+
+    if(t<1){
+      requestAnimationFrame(frame);
+    }else{
+      rotation=target%(Math.PI*2);
+      draw();
+      showResult(winner);
+      spinning=false;
+      spinBtn.disabled=false;
+      again.disabled=false;
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+root.querySelectorAll('.mood').forEach(btn=>btn.addEventListener('click',()=>{
+  if(spinning)return;
+  root.querySelectorAll('.mood').forEach(x=>x.classList.toggle('selected',x===btn));
+  setMood(btn.dataset.mood,btn.textContent.replace(/^[^\s]+\s/,'').trim());
+}));
+
+spinBtn.addEventListener('click',spin);
+again.addEventListener('click',spin);
+canvas.addEventListener('click',spin);
+draw();
+  function ensureWheelVisible(){
+    if(!active || !active.length) active=[...surprise];
+    draw();
+  }
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden) requestAnimationFrame(ensureWheelVisible);
+  });
+  window.addEventListener('pageshow',()=>requestAnimationFrame(ensureWheelVisible));
+  window.addEventListener('focus',()=>requestAnimationFrame(ensureWheelVisible));
+  window.addEventListener('resize',()=>requestAnimationFrame(ensureWheelVisible));
+
+})();
+</script>
+</body>
+</html>
+
+
+
+
